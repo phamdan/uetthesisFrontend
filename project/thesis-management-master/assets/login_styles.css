@@ -1,0 +1,92 @@
+html{
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+}
+body {
+	font-family: 'Open Sans', sans-serif;
+    color: #353535;
+    height: 0;
+}
+
+body{
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer */
+    -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+    -webkit-user-select: none; /* Chrome, Safari, and Opera */
+    -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+    }
+
+.page {
+    background-image: url('/_next/static/images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: -1
+}
+
+.login_loading {
+    background-color: rgba(0, 0, 0, 0.3);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #fff;
+    text-align: center;
+    vertical-align: center;
+    padding-top: calc(20% - 5rem);
+    font-size: 10rem;
+    z-index: 1
+}
+
+.login_form {	
+	margin-top: 80px;
+    margin-bottom: 80px;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1.4px solid #80bdff;  
+  border-radius: 1rem 
+}
+
+.form-signin-heading {
+    margin-bottom: 30px
+}
+    .form-signin .input_user {
+        font-size: 1.5rem;
+        margin: 0px 0px 20px 0px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        width: 100% !important;
+        height: 5rem
+	}
+
+    .form-signin .input_pass {
+        font-size: 1.5rem;
+        margin: 0px 0px 20px 0px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        width: 100% !important;
+        height: 5rem;
+    }
+    
+    .form-signin .select{
+        margin: 0px 0px 20px 0px;
+        width: 100% !important;
+        height: 5rem;
+    }
+    .disappear {
+        display: none
+    }
