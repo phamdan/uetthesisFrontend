@@ -75,14 +75,24 @@ class Index extends React.Component {
   };
 
   state = {
+    showall:true,
     listThesis: [],
+    displayListThesis:[],
     role: "",
     loading: false,
     arlert: false,
     arlertType: "success",
     arlertName: "Thành công",
     arlertMes: "",
-    thesisChoose: {},
+    thesisChoose: {
+      thesisCode: "",
+      thesisSubject: "",
+      lecturerName: "",
+      studentName: "",
+      studentId: "",
+      describle: "",
+      state: ""
+    },
     editable: false,
     fullName:"",
     idInfo:{
@@ -95,7 +105,11 @@ class Index extends React.Component {
     },
     describle:"",
     gender:"",
-    email:""
+    email:"",
+    phone:{
+      type:Number,
+      default:0
+    }
   };
 
   componentDidMount() {
@@ -115,7 +129,7 @@ class Index extends React.Component {
     return (
       <div className="">
         <Head>
-          <title>Thesis management</title>
+          <title>Thesis mana  gement</title>
           <script
             src="https://code.jquery.com/jquery-3.5.1.min.js"
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -138,9 +152,9 @@ class Index extends React.Component {
             integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
             crossOrigin="anonymous"
           />
-          {/* <script src="../bootstrap.min.js.map"></script> */}
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+          <script src="../bootstrap.min.js.map"></script>
+          {/* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> */}
+          {/* <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> */}
         </Head>
         <NavBar onLogout={this.onLogout} onAddThesis={this.onAddThesis}/>
         <div className="container">
@@ -157,21 +171,25 @@ class Index extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.listThesis.map((thesis, index) => (
+              {this.state.displayListThesis.map((thesis, index) => (
                 <tr
                   key={index}
                   style={{ cursor: "pointer" }}
                 >
                   <th scope="row" data-toggle="modal"
                   data-target="#ModalThesis" onClick={e => this.chooseThesis(thesis, false)}>{thesis.thesisCode}</th>
-                  <td onClick={e => this.chooseLecturerName(thesis.lecturerName,thesis.lecturerId)}>
+                  <td onClick={e => {
+                    this.chooseLecturerName(thesis.lecturerName,thesis.lecturerId)
+                  }}>
                     <a href="#" style={{zIndex:"100"}} data-toggle="modal"
-                  data-target="#exampleModal">
+                    data-target="#exampleModal">
                       <span className="glyphicon glyphicon-log-in"></span>
                       {thesis.lecturerName}
                     </a>
                   </td>
-                  <td onClick={e => this.chooseStudentName(thesis.studentName,thesis.studentId)}>
+                  <td onClick={e => {
+                    this.chooseStudentName(thesis.studentName,thesis.studentId)
+                  }}>
                     <a href="#" style={{zIndex:"100"}}  data-toggle="modal"
                   data-target="#exampleModal">
                       <span className="glyphicon glyphicon-log-in"></span>
@@ -209,24 +227,39 @@ class Index extends React.Component {
             &times;
           </button>
         </div>
-        <ModalInfo fullName={this.state.fullName} gender={this.state.gender} describle={this.state.describle} numberCompletedThesis={this.state.numberCompletedThesis} email={this.state.email}/>
+        <div style={{textAlign:"center"}}>
+        <button type="button" className="btn btn-success" onClick={this.filterThesis}>{this.state.showall?`của tôi`:"tất cả"}</button>
+        </div>
+        <ModalInfo fullName={this.state.fullName} gender={this.state.gender} describle={this.state.describle} numberCompletedThesis={this.state.numberCompletedThesis} email={this.state.email} phone={this.state.phone}/>
         <ModalThesis thesisInfo={this.state.thesisChoose} editable={this.state.editable} onArlert={this.onArlert}/>
       </div>
     );
   }
-  chooseLecturerName=(name,id)=>{
+  filterThesis=()=>{
+    this.setState({
+      displayListThesis: this.state.listThesis.filter(thesis=>
+        thesis.studentName===localStorage.getItem("fullName") || thesis.lecturerName===localStorage.getItem("fullName") || !this.state.showall
+      ),
+      showall: !this.state.showall
+
+    })
+    console.log(this.state.listThesis)
+  }
+  chooseLecturerName= (name,id)=>{
     request("/lecturer/info","GET",`id=${id}&userRole=LEC`,{"Content-type": "application/json"},"")
     .then(async (result) => {
       console.log(this.state)
       console.log(result.result)
-      this.setState({fullName:name, idInfo:id,numberCompletedThesis:result.result.numberCompletedThesis,describle:result.result.describle,gender:result.result.gender,email:result.result.email})
+      const newResult=result.result
+      this.setState({fullName:name, idInfo:id,numberCompletedThesis:newResult.numberCompletedThesis,describle:newResult.describle,gender:newResult.gender,email:newResult.email,phone:newResult.phone})
     });
   }
   chooseStudentName=(name,id)=>{
     request("/student/info","GET",`id=${id}&userRole=STU`,{"Content-type": "application/json"},"")
     .then(async (result) => {
-      console.log(result.result[0])
-      this.setState({fullName:name, idInfo:id,numberCompletedThesis:result.result[0].numberCompletedThesis,describle:result.result[0].describle,gender:result.result[0].gender, email:result.result[0].email})
+      const newResult=result.result[0];
+      console.log(newResult);
+      this.setState({fullName:name, idInfo:id,numberCompletedThesis:newResult.numberCompletedThesis,describle:newResult.describle,gender:newResult.gender, email:newResult.email,phone:newResult.phone})
     });
   }
   onAddThesis = () => {
@@ -297,8 +330,11 @@ class Index extends React.Component {
       )
         this.setState({ listThesis: [] });
       else {
-        this.setState({ listThesis: result.result });
-        console.log(this.state);
+        this.setState({ 
+          listThesis: result.result,
+          displayListThesis: result.result
+        });
+        console.log(this.state.listThesis);
       }
     });
   };

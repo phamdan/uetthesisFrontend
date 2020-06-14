@@ -32,11 +32,12 @@ class ModalInfo extends React.Component {
                   </label>
                   <div className="col-sm-8">
                     <input
+                      style={{textAlign:"center"}}
                       type="text"
                       readOnly
                       className="form-control-plaintext"
                       id="staticName"
-                      value={this.props.fullName}
+                      value={this.props.fullName||""}
                     />
                   </div>
                 </div>
@@ -46,11 +47,12 @@ class ModalInfo extends React.Component {
                   </label>
                   <div className="col-sm-8">
                     <input
+                      style={{textAlign:"center"}}
                       type="text"
                       readOnly
                       className="form-control-plaintext"
                       id="gender"
-                      value={this.props.gender}
+                      value={this.props.gender||""}
                     />
                   </div>
                 </div>
@@ -60,11 +62,27 @@ class ModalInfo extends React.Component {
                   </label>
                   <div className="col-sm-8">
                     <input
+                      style={{textAlign:"center"}}
                       type="text"
                       readOnly
                       className="form-control-plaintext"
                       id="staticEmail"
-                      value={this.props.email}
+                      value={this.props.email||""}
+                    />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <label htmlFor="staticCompleted" className="col-sm-4 col-form-label" >
+                    Phone
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      style={{textAlign:"center"}}
+                      type="Number"
+                      readOnly
+                      className="form-control-plaintext"
+                      id="staticCompleted"
+                      value={this.props.phone||0}
                     />
                   </div>
                 </div>
@@ -74,28 +92,31 @@ class ModalInfo extends React.Component {
                   </label>
                   <div className="col-sm-8">
                     <input
+                      style={{textAlign:"center"}}
                       type="text"
                       readOnly
                       className="form-control-plaintext"
                       id="staticDescrible"
-                      value={!this.props.describle?"":this.props.describle}
+                      value={this.props.describle||""}
                     />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="staticDescrible" className="col-sm-4 col-form-label">
-                    Describle
+                  <label htmlFor="staticCompleted" className="col-sm-4 col-form-label" >
+                    NumberCompletedThesis
                   </label>
                   <div className="col-sm-8">
                     <input
-                      type="text"
+                      style={{textAlign:"center"}}
+                      type="Number"
                       readOnly
                       className="form-control-plaintext"
-                      id="staticDescrible"
-                      value={!this.props.describle?"":this.props.describle}
+                      id="staticCompleted"
+                      value={this.props.numberCompletedThesis||0}
                     />
                   </div>
                 </div>
+                
               </form>
             </div>
             <div className="modal-footer">
